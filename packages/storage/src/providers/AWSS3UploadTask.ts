@@ -84,7 +84,7 @@ export interface FileMetadata {
 // see: https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html
 const MAX_PARTS = 10000;
 // 5MB in bytes
-const PART_SIZE = 5 * 1024 * 1024;
+const PART_SIZE = 50 * 1024 * 1024;
 const DEFAULT_QUEUE_SIZE = 4;
 
 function comparePartNumber(a: CompletedPart, b: CompletedPart) {
@@ -229,8 +229,7 @@ export class AWSS3UploadTask implements UploadTask {
 	private _validateParams() {
 		if (this.file.size / this.partSize > MAX_PARTS) {
 			throw new Error(
-				`Too many parts. Number of parts is ${this.file.size /
-					this.partSize}, maximum is ${MAX_PARTS}.`
+				`Too many parts. size=${this.file.size} partSize=${this.partSize}, maximum is ${MAX_PARTS}.`
 			);
 		}
 	}
